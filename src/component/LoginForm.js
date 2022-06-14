@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import logo from '../devtailorLogo.svg';
+
 import { OutlinedInput,InputAdornment,IconButton ,TextField,Link,Grid, Checkbox,Button,InputLabel, MenuItem, FormControl, Select} from '@mui/material';
+import { Box } from '@mui/system';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 
 import "../App.css";
+import logo from '../devtailorLogo.svg';
 import { countries } from  "../config/country";
-import { Box } from '@mui/system';
+
 
 function LoginForm(){
     const [formObj , setFormObject ] = useState({
@@ -15,8 +17,8 @@ function LoginForm(){
         repeatPassword : "",
         showPassword : false,
         showRepeatPassword : false,
-        emailFormatError : '',
-        misMatchPasswordError : '',
+        emailFormatError : "",
+        misMatchPasswordError : "",
         isTermAgreed : false
     });
 
@@ -42,14 +44,14 @@ function LoginForm(){
             target : { value},
         } = event;
         switch(props) {
-            case 'showPassword':
-            case 'showRepeatPassword':
-            case 'isTermAgreed' : setFormObject({...formObj , [props] : !formObj[props]})
+            case "showPassword":
+            case "showRepeatPassword":
+            case "isTermAgreed" : setFormObject({...formObj , [props] : !formObj[props]})
                 break;
-            case 'repeatPassword':
-            case 'password' : setFormObject({...formObj , [props] : value , misMatchPasswordError :''})
+            case "repeatPassword":
+            case "password" : setFormObject({...formObj , [props] : value , misMatchPasswordError :''})
                 break;
-            case 'email' : setFormObject({...formObj , [props] : value , emailFormatError :"" }) 
+            case "email" : setFormObject({...formObj , [props] : value , emailFormatError :"" }) 
                 break;
             default : setFormObject({...formObj , [props] : value})
 
@@ -58,8 +60,8 @@ function LoginForm(){
 
     const handlePasswordVisibility = (selectedElement)=>()=>{
         switch(selectedElement){
-            case 'showPassword': 
-            case 'showRepeatPassword': setFormObject({...formObj, [selectedElement]: !formObj[selectedElement]})
+            case "showPassword": 
+            case "showRepeatPassword": setFormObject({...formObj, [selectedElement]: !formObj[selectedElement]})
                     break;
             default: //Do Nothing
         }
@@ -76,10 +78,10 @@ function LoginForm(){
         </header>
     <div>
 
-    <Box sx={{ mb:3, display: 'flex',
-          flexDirection: { xs: 'column' },
-          alignItems:'center', 
-          gridTemplateRows: 'repeat(3, 1fr)'}} >
+    <Box sx={{ mb:3, display: "flex",
+          flexDirection: { xs: "column" },
+          alignItems:"center", 
+          gridTemplateRows: "repeat(3, 1fr)"}} >
 
         {/* Country of residence */}
         <FormControl sx={{ m: 1, width: 300 }}>
@@ -88,7 +90,7 @@ function LoginForm(){
             labelId="form-country-of-residence"
             id="form-country-of-residence-name"
             value={formObj.countryOfResidence}
-            onChange={handleChange('countryOfResidence')}
+            onChange={handleChange("countryOfResidence")}
             input={<OutlinedInput label="Country of residence" />}
             >
             {countries.map((country) => (
@@ -106,7 +108,7 @@ function LoginForm(){
             label={formObj.emailFormatError ? formObj.emailFormatError : "Email"}
             value={formObj.email}
             error={formObj.emailFormatError ? true : false}
-            onChange={handleChange('email')}
+            onChange={handleChange("email")}
             />
         </FormControl>
 
@@ -116,15 +118,15 @@ function LoginForm(){
             <OutlinedInput
                 error = {formObj.misMatchPasswordError ? true : false}
                 id="outlined-adornment-password"
-                type={formObj.showPassword ? 'text' : 'password'}
+                type={formObj.showPassword ? "text" : "password"}
                 value={formObj.password}
-                onChange={handleChange('password')}
+                onChange={handleChange("password")}
                 endAdornment={
                     <InputAdornment position="end">
                     <IconButton
                         aria-label="toggle password visibility"
-                        onClick={handlePasswordVisibility('showPassword')}
-                        onMouseDown={handlePasswordVisibility('showPassword')}
+                        onClick={handlePasswordVisibility("showPassword")}
+                        onMouseDown={handlePasswordVisibility("showPassword")}
                         edge="end"
                     >
                         {formObj.showPassword ? <VisibilityOff /> : <Visibility />}
@@ -141,15 +143,15 @@ function LoginForm(){
             <OutlinedInput
                 error = {formObj.misMatchPasswordError ? true : false}
                 id="outlined-adornment-password"
-                type={formObj.showRepeatPassword ? 'text' : 'password'}
+                type={formObj.showRepeatPassword ? "text" : "password"}
                 value={formObj.repeatPassword}
-                onChange={handleChange('repeatPassword')}
+                onChange={handleChange("repeatPassword")}
                 endAdornment={
                     <InputAdornment position="end">
                     <IconButton
                         aria-label="toggle password visibility"
-                        onClick={handlePasswordVisibility('showRepeatPassword')}
-                        onMouseDown={handlePasswordVisibility('showRepeatPassword')}
+                        onClick={handlePasswordVisibility("showRepeatPassword")}
+                        onMouseDown={handlePasswordVisibility("showRepeatPassword")}
                         edge="end"
                     >
                         {formObj.showRepeatPassword ? <VisibilityOff /> : <Visibility />}
@@ -164,10 +166,10 @@ function LoginForm(){
         <FormControl sx={{mt:1, width:300 }} >
             <Grid container justifyContent="flex-start" alignItems="center">
                 <Grid item xs={2}>
-                <Checkbox sx={{m:0}} checked={formObj.isTermAgreed} onChange={handleChange("isTermAgreed")} /> 
+                    <Checkbox sx={{m:0}} checked={formObj.isTermAgreed} onChange={handleChange("isTermAgreed")} /> 
                 </Grid>
                 <Grid item xs={10}>
-                <span>I agree with <Link underline ="none"> Terms & Conditions </Link></span>
+                    <span>I agree with <Link underline ="none"> Terms & Conditions </Link></span>
                 </Grid>
             </Grid>
         </FormControl>
