@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import logo from '../devtailorLogo.svg';
-import { OutlinedInput,TextField,Link,Grid, Checkbox,Button,InputLabel, MenuItem, FormControl, Select} from '@mui/material';
-// import {Visibility, VisibilityOff} from '@mui/icons-material';
+import { OutlinedInput,InputAdornment,IconButton ,TextField,Link,Grid, Checkbox,Button,InputLabel, MenuItem, FormControl, Select} from '@mui/material';
+import {Visibility, VisibilityOff} from '@mui/icons-material';
 
 import "../App.css";
 import { countries } from  "../config/country";
@@ -56,8 +56,18 @@ function LoginForm(){
         }
     }
 
+    const handlePasswordVisibility = (selectedElement)=>()=>{
+        switch(selectedElement){
+            case 'showPassword': 
+            case 'showRepeatPassword': setFormObject({...formObj, [selectedElement]: !formObj[selectedElement]})
+                    break;
+            default: //Do Nothing
+        }
+    }
+
     return (
     <div className="App">
+        {/* header */}
         <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
             <p>
@@ -65,10 +75,13 @@ function LoginForm(){
             </p>
         </header>
     <div>
+
     <Box sx={{ mb:3, display: 'flex',
           flexDirection: { xs: 'column' },
           alignItems:'center', 
-          gridTemplateRows: 'repeat(3, 1fr)' }} >
+          gridTemplateRows: 'repeat(3, 1fr)'}} >
+
+        {/* Country of residence */}
         <FormControl sx={{ m: 1, width: 300 }}>
             <InputLabel id="form-country-of-residence">Country of residence</InputLabel>
             <Select
@@ -85,6 +98,8 @@ function LoginForm(){
             ))}
             </Select>
         </FormControl>
+
+        {/* Email */}
         <FormControl sx={{ m: 1 , width:300 }} >
             <TextField
             id="outlined-basic-email"
@@ -94,50 +109,82 @@ function LoginForm(){
             onChange={handleChange('email')}
             />
         </FormControl>
+
+        {/* Password */}
         <FormControl sx={{ m: 1 , width:300 }} >
-            <TextField
-                id="outlined-basic-password"
-                label={formObj.misMatchPasswordError ? formObj.misMatchPasswordError : "Create your Password"}
+            <InputLabel htmlFor="outlined-adornment-password">{formObj.misMatchPasswordError ? formObj.misMatchPasswordError : "Create your Password"}</InputLabel>
+            <OutlinedInput
+                error = {formObj.misMatchPasswordError ? true : false}
+                id="outlined-adornment-password"
+                type={formObj.showPassword ? 'text' : 'password'}
                 value={formObj.password}
                 onChange={handleChange('password')}
-                type = "password"
-                error = {formObj.misMatchPasswordError ? true : false}
+                endAdornment={
+                    <InputAdornment position="end">
+                    <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handlePasswordVisibility('showPassword')}
+                        onMouseDown={handlePasswordVisibility('showPassword')}
+                        edge="end"
+                    >
+                        {formObj.showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                    </InputAdornment>
+                }
+                label={formObj.misMatchPasswordError ? formObj.misMatchPasswordError : "Create your Password"}
             />
         </FormControl>
+
+        {/* Repeat Password */}
         <FormControl sx={{ m: 1 , width:300 }} >
-            <TextField
-            id="outlined-basic-re-password"
-            label={formObj.misMatchPasswordError ? formObj.misMatchPasswordError : "Re-enter password"}
-            value={formObj.repeatPassword}
-            error = {formObj.misMatchPasswordError ? true : false}
-            onChange={handleChange('repeatPassword')}
-            type = "password"
+            <InputLabel htmlFor="outlined-adornment-password">{formObj.misMatchPasswordError ? formObj.misMatchPasswordError : "Re-enter password"}</InputLabel>
+            <OutlinedInput
+                error = {formObj.misMatchPasswordError ? true : false}
+                id="outlined-adornment-password"
+                type={formObj.showRepeatPassword ? 'text' : 'password'}
+                value={formObj.repeatPassword}
+                onChange={handleChange('repeatPassword')}
+                endAdornment={
+                    <InputAdornment position="end">
+                    <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handlePasswordVisibility('showRepeatPassword')}
+                        onMouseDown={handlePasswordVisibility('showRepeatPassword')}
+                        edge="end"
+                    >
+                        {formObj.showRepeatPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                    </InputAdornment>
+                }
+                label={formObj.misMatchPasswordError ? formObj.misMatchPasswordError : "Re-enter password"}
             />
         </FormControl>
+
+        {/* Terms and Conditions */}
         <FormControl sx={{mt:1, width:300 }} >
-
-        <Grid container justifyContent="flex-start" alignItems="center">
-            <Grid item xs={2}>
-            <Checkbox sx={{m:0}} checked={formObj.isTermAgreed} onChange={handleChange("isTermAgreed")} /> 
+            <Grid container justifyContent="flex-start" alignItems="center">
+                <Grid item xs={2}>
+                <Checkbox sx={{m:0}} checked={formObj.isTermAgreed} onChange={handleChange("isTermAgreed")} /> 
+                </Grid>
+                <Grid item xs={10}>
+                <span>I agree with <Link underline ="none"> Terms & Conditions </Link></span>
+                </Grid>
             </Grid>
-            <Grid item xs={10}>
-            <span>I agree with <Link underline ="none"> Terms & Conditions </Link></span>
-            </Grid>
-        </Grid>
-
         </FormControl>
+
+        {/* Signup and Login Button */}
         <FormControl sx={{ m: 1 , width:300 }}>
             <Button disabled={!formObj.isTermAgreed} variant="contained" onClick={formHandler} > Sign Up </Button>
             <Grid container justifyContent="flex-start">
                 <Button variant="text" id="login-btn">Log In</Button>
-
             </Grid>
-
         </FormControl>
+
     </Box>
+    {/* *************** footer *****************/}
     </div>
         <Box display="flex" justifyContent="center" alignItems="center" alignContent="flex-end" >
-                <Button id="footer-customer-support" variant="text"> Customer Support </Button>
+            <Button id="footer-customer-support" variant="text"> Customer Support </Button>
         </Box>
     </div>
     );
